@@ -7,15 +7,13 @@ import com.cms.collaborator.entity.enums.CollaboratorStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.UUID;
-
 public interface CollaboratorService {
 
     CollaboratorResponse createCollaborator(CollaboratorRequest request);
 
-    CollaboratorResponse getCollaboratorById(UUID id);
+    CollaboratorResponse getCollaboratorByNationalId(String nationalId);
 
-    CollaboratorDetailResponse getCollaboratorDetailById(UUID id);
+    CollaboratorDetailResponse getCollaboratorDetailByNationalId(String nationalId);
 
     Page<CollaboratorResponse> getAllCollaborators(Pageable pageable);
 
@@ -26,9 +24,9 @@ public interface CollaboratorService {
             Pageable pageable
     );
 
-    CollaboratorResponse updateCollaborator(UUID id, CollaboratorRequest request);
+    CollaboratorResponse updateCollaborator(String nationalId, CollaboratorRequest request);
 
-    void deleteCollaborator(UUID id);
+    void deleteCollaborator(String nationalId);
 
-    boolean existsById(UUID id);
+    boolean existsByNationalId(String nationalId);
 }

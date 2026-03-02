@@ -24,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/collaborators")
@@ -49,27 +48,27 @@ public class CollaboratorController {
                 .body(ApiResponse.created(response));
     }
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Get collaborator by ID")
+    @GetMapping("/{nationalId}")
+    @Operation(summary = "Get collaborator by National ID")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Collaborator found"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Collaborator not found")
     })
-    public ResponseEntity<ApiResponse<CollaboratorResponse>> getCollaboratorById(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID id) {
-        CollaboratorResponse response = collaboratorService.getCollaboratorById(id);
+    public ResponseEntity<ApiResponse<CollaboratorResponse>> getCollaboratorByNationalId(
+            @Parameter(description = "Collaborator National ID") @PathVariable String nationalId) {
+        CollaboratorResponse response = collaboratorService.getCollaboratorByNationalId(nationalId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    @GetMapping("/{id}/details")
+    @GetMapping("/{nationalId}/details")
     @Operation(summary = "Get collaborator details with performance summary")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Collaborator details found"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Collaborator not found")
     })
     public ResponseEntity<ApiResponse<CollaboratorDetailResponse>> getCollaboratorDetails(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID id) {
-        CollaboratorDetailResponse response = collaboratorService.getCollaboratorDetailById(id);
+            @Parameter(description = "Collaborator National ID") @PathVariable String nationalId) {
+        CollaboratorDetailResponse response = collaboratorService.getCollaboratorDetailByNationalId(nationalId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -94,7 +93,7 @@ public class CollaboratorController {
         return ResponseEntity.ok(ApiResponse.success(pageResponse));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{nationalId}")
     @Operation(summary = "Update collaborator")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Collaborator updated successfully"),
@@ -103,37 +102,37 @@ public class CollaboratorController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "409", description = "Duplicate email or employee code")
     })
     public ResponseEntity<ApiResponse<CollaboratorResponse>> updateCollaborator(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID id,
+            @Parameter(description = "Collaborator National ID") @PathVariable String nationalId,
             @Valid @RequestBody CollaboratorRequest request) {
-        CollaboratorResponse response = collaboratorService.updateCollaborator(id, request);
+        CollaboratorResponse response = collaboratorService.updateCollaborator(nationalId, request);
         return ResponseEntity.ok(ApiResponse.success(response, "Collaborator updated successfully"));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{nationalId}")
     @Operation(summary = "Delete collaborator")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "204", description = "Collaborator deleted successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Collaborator not found")
     })
     public ResponseEntity<Void> deleteCollaborator(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID id) {
-        collaboratorService.deleteCollaborator(id);
+            @Parameter(description = "Collaborator National ID") @PathVariable String nationalId) {
+        collaboratorService.deleteCollaborator(nationalId);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}/performance-reviews")
+    @GetMapping("/{nationalId}/performance-reviews")
     @Operation(summary = "Get all performance reviews for a collaborator")
     public ResponseEntity<ApiResponse<List<PerformanceReviewResponse>>> getCollaboratorPerformanceReviews(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID id) {
-        List<PerformanceReviewResponse> reviews = performanceReviewService.getAllReviewsByCollaborator(id);
+            @Parameter(description = "Collaborator National ID") @PathVariable String nationalId) {
+        List<PerformanceReviewResponse> reviews = performanceReviewService.getAllReviewsByCollaborator(nationalId);
         return ResponseEntity.ok(ApiResponse.success(reviews));
     }
 
-    @GetMapping("/{id}/exists")
+    @GetMapping("/{nationalId}/exists")
     @Operation(summary = "Check if collaborator exists")
     public ResponseEntity<ApiResponse<Boolean>> checkCollaboratorExists(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID id) {
-        boolean exists = collaboratorService.existsById(id);
+            @Parameter(description = "Collaborator National ID") @PathVariable String nationalId) {
+        boolean exists = collaboratorService.existsByNationalId(nationalId);
         return ResponseEntity.ok(ApiResponse.success(exists));
     }
 }

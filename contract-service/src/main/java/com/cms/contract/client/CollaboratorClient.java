@@ -7,8 +7,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.UUID;
-
 @FeignClient(
         name = "collaborator-service",
         url = "${collaborator.service.url:http://localhost:8081}",
@@ -16,15 +14,15 @@ import java.util.UUID;
 )
 public interface CollaboratorClient {
 
-    @GetMapping("/api/v1/collaborators/{id}")
-    ApiResponse<CollaboratorResponse> getCollaboratorById(@PathVariable("id") UUID id);
+    @GetMapping("/api/v1/collaborators/{nationalId}")
+    ApiResponse<CollaboratorResponse> getCollaboratorByNationalId(@PathVariable("nationalId") String nationalId);
 
-    @GetMapping("/api/v1/collaborators/{id}/exists")
-    ApiResponse<Boolean> checkCollaboratorExists(@PathVariable("id") UUID id);
+    @GetMapping("/api/v1/collaborators/{nationalId}/exists")
+    ApiResponse<Boolean> checkCollaboratorExists(@PathVariable("nationalId") String nationalId);
 
     @GetMapping("/api/v1/performance-reviews/collaborator/{collaboratorId}/average-rating")
-    ApiResponse<AverageRatingResponse> getAverageRating(@PathVariable("collaboratorId") UUID collaboratorId);
+    ApiResponse<AverageRatingResponse> getAverageRating(@PathVariable("collaboratorId") String collaboratorId);
 
     @GetMapping("/api/v1/performance-reviews/collaborator/{collaboratorId}/renewal-eligibility")
-    ApiResponse<Boolean> isEligibleForRenewal(@PathVariable("collaboratorId") UUID collaboratorId);
+    ApiResponse<Boolean> isEligibleForRenewal(@PathVariable("collaboratorId") String collaboratorId);
 }

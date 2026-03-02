@@ -1,9 +1,9 @@
 -- Collaborator Service Database Schema
 -- Version: 1.0
 
--- Create collaborators table
+-- Create collaborators table with national_id as primary key
 CREATE TABLE IF NOT EXISTS collaborators (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    national_id VARCHAR(20) PRIMARY KEY,
     employee_code VARCHAR(50) NOT NULL UNIQUE,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS collaborators (
 -- Create performance_reviews table
 CREATE TABLE IF NOT EXISTS performance_reviews (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    collaborator_id UUID NOT NULL,
+    collaborator_id VARCHAR(20) NOT NULL,
     reviewer_name VARCHAR(200) NOT NULL,
     reviewer_email VARCHAR(255),
     review_period_start DATE NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS performance_reviews (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     
     CONSTRAINT fk_performance_review_collaborator 
-        FOREIGN KEY (collaborator_id) REFERENCES collaborators(id) ON DELETE CASCADE,
+        FOREIGN KEY (collaborator_id) REFERENCES collaborators(national_id) ON DELETE CASCADE,
     CONSTRAINT chk_rating_range CHECK (rating >= 1.00 AND rating <= 5.00),
     CONSTRAINT chk_performance_category CHECK (
         performance_category IN ('EXCEEDS_EXPECTATIONS', 'MEETS_EXPECTATIONS', 'BELOW_EXPECTATIONS', 'NEEDS_IMPROVEMENT')

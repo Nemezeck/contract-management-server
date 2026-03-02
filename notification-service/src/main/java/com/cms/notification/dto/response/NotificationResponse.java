@@ -20,7 +20,7 @@ public class NotificationResponse {
 
     private UUID id;
     private UUID contractId;
-    private UUID collaboratorId;
+    private String collaboratorId;
     private NotificationType notificationType;
     private String recipientEmail;
     private String recipientName;

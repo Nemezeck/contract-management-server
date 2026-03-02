@@ -18,30 +18,30 @@ import java.util.UUID;
 @Repository
 public interface PerformanceReviewRepository extends JpaRepository<PerformanceReview, UUID> {
 
-    List<PerformanceReview> findByCollaboratorIdOrderByCreatedAtDesc(UUID collaboratorId);
+    List<PerformanceReview> findByCollaboratorNationalIdOrderByCreatedAtDesc(String collaboratorId);
 
-    Page<PerformanceReview> findByCollaboratorId(UUID collaboratorId, Pageable pageable);
+    Page<PerformanceReview> findByCollaboratorNationalId(String collaboratorId, Pageable pageable);
 
-    Optional<PerformanceReview> findTopByCollaboratorIdOrderByReviewPeriodEndDesc(UUID collaboratorId);
+    Optional<PerformanceReview> findTopByCollaboratorNationalIdOrderByReviewPeriodEndDesc(String collaboratorId);
 
-    List<PerformanceReview> findByCollaboratorIdAndReviewPeriodEndAfter(UUID collaboratorId, LocalDate date);
+    List<PerformanceReview> findByCollaboratorNationalIdAndReviewPeriodEndAfter(String collaboratorId, LocalDate date);
 
-    @Query("SELECT AVG(pr.rating) FROM PerformanceReview pr WHERE pr.collaborator.id = :collaboratorId")
-    Optional<BigDecimal> calculateAverageRatingByCollaboratorId(@Param("collaboratorId") UUID collaboratorId);
+    @Query("SELECT AVG(pr.rating) FROM PerformanceReview pr WHERE pr.collaborator.nationalId = :collaboratorId")
+    Optional<BigDecimal> calculateAverageRatingByCollaboratorId(@Param("collaboratorId") String collaboratorId);
 
-    @Query("SELECT COUNT(pr) FROM PerformanceReview pr WHERE pr.collaborator.id = :collaboratorId")
-    long countByCollaboratorId(@Param("collaboratorId") UUID collaboratorId);
+    @Query("SELECT COUNT(pr) FROM PerformanceReview pr WHERE pr.collaborator.nationalId = :collaboratorId")
+    long countByCollaboratorId(@Param("collaboratorId") String collaboratorId);
 
-    @Query("SELECT pr FROM PerformanceReview pr WHERE pr.collaborator.id = :collaboratorId " +
+    @Query("SELECT pr FROM PerformanceReview pr WHERE pr.collaborator.nationalId = :collaboratorId " +
             "AND pr.isEligibleRenewal = true ORDER BY pr.reviewPeriodEnd DESC")
-    List<PerformanceReview> findEligibleReviewsByCollaboratorId(@Param("collaboratorId") UUID collaboratorId);
+    List<PerformanceReview> findEligibleReviewsByCollaboratorId(@Param("collaboratorId") String collaboratorId);
 
     @Query("SELECT CASE WHEN COUNT(pr) > 0 THEN true ELSE false END " +
-            "FROM PerformanceReview pr WHERE pr.collaborator.id = :collaboratorId " +
+            "FROM PerformanceReview pr WHERE pr.collaborator.nationalId = :collaboratorId " +
             "AND pr.isEligibleRenewal = true " +
             "AND pr.reviewPeriodEnd >= :sinceDate")
     boolean hasRecentEligibleReview(
-            @Param("collaboratorId") UUID collaboratorId,
+            @Param("collaboratorId") String collaboratorId,
             @Param("sinceDate") LocalDate sinceDate
     );
 
@@ -57,14 +57,14 @@ public interface PerformanceReviewRepository extends JpaRepository<PerformanceRe
             @Param("endDate") LocalDate endDate
     );
 
-    @Query("SELECT pr.collaborator.id, AVG(pr.rating) as avgRating " +
+    @Query("SELECT pr.collaborator.nationalId, AVG(pr.rating) as avgRating " +
             "FROM PerformanceReview pr " +
-            "GROUP BY pr.collaborator.id " +
+            "GROUP BY pr.collaborator.nationalId " +
             "HAVING AVG(pr.rating) >= :minAvgRating")
     List<Object[]> findCollaboratorsWithMinAverageRating(@Param("minAvgRating") BigDecimal minAvgRating);
 
-    boolean existsByCollaboratorIdAndReviewPeriodStartAndReviewPeriodEnd(
-            UUID collaboratorId,
+    boolean existsByCollaboratorNationalIdAndReviewPeriodStartAndReviewPeriodEnd(
+            String collaboratorId,
             LocalDate reviewPeriodStart,
             LocalDate reviewPeriodEnd
     );

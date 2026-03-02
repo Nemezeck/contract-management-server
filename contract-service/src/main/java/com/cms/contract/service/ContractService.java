@@ -20,14 +20,14 @@ public interface ContractService {
 
     ContractResponse getContractById(UUID id);
 
-    ContractResponse getContractByCollaborator(UUID collaboratorId);
+    ContractResponse getContractByCollaborator(String collaboratorId);
 
     Page<ContractResponse> getAllContracts(Pageable pageable);
 
     Page<ContractResponse> getContractsWithFilters(
             ContractStatus status,
             ContractType contractType,
-            UUID collaboratorId,
+            String collaboratorId,
             Pageable pageable
     );
 
@@ -39,5 +39,5 @@ public interface ContractService {
 
     ContractResponse terminateContract(UUID id, TerminationRequest request);
 
-    boolean existsActiveContractForCollaborator(UUID collaboratorId);
+    boolean existsActiveContractForCollaborator(String collaboratorId);
 }

@@ -60,7 +60,7 @@ public class PerformanceReviewController {
     @GetMapping("/collaborator/{collaboratorId}")
     @Operation(summary = "Get all reviews for a collaborator with pagination")
     public ResponseEntity<ApiResponse<PageResponse<PerformanceReviewResponse>>> getReviewsByCollaborator(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID collaboratorId,
+            @Parameter(description = "Collaborator National ID") @PathVariable String collaboratorId,
             @PageableDefault(size = 20, sort = "reviewPeriodEnd", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<PerformanceReviewResponse> page = performanceReviewService
@@ -83,7 +83,7 @@ public class PerformanceReviewController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "No reviews found for collaborator")
     })
     public ResponseEntity<ApiResponse<PerformanceReviewResponse>> getLatestReview(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID collaboratorId) {
+            @Parameter(description = "Collaborator National ID") @PathVariable String collaboratorId) {
         PerformanceReviewResponse response = performanceReviewService.getLatestReview(collaboratorId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
@@ -91,7 +91,7 @@ public class PerformanceReviewController {
     @GetMapping("/collaborator/{collaboratorId}/average-rating")
     @Operation(summary = "Get average rating for a collaborator")
     public ResponseEntity<ApiResponse<AverageRatingResponse>> getAverageRating(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID collaboratorId) {
+            @Parameter(description = "Collaborator National ID") @PathVariable String collaboratorId) {
         AverageRatingResponse response = performanceReviewService.calculateAverageRating(collaboratorId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
@@ -99,7 +99,7 @@ public class PerformanceReviewController {
     @GetMapping("/collaborator/{collaboratorId}/renewal-eligibility")
     @Operation(summary = "Check if collaborator is eligible for contract renewal")
     public ResponseEntity<ApiResponse<Boolean>> checkRenewalEligibility(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID collaboratorId) {
+            @Parameter(description = "Collaborator National ID") @PathVariable String collaboratorId) {
         boolean isEligible = performanceReviewService.isEligibleForRenewal(collaboratorId);
         return ResponseEntity.ok(ApiResponse.success(isEligible));
     }

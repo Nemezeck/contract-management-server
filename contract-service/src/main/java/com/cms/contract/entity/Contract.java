@@ -40,9 +40,9 @@ public class Contract {
     @Column(name = "contract_number", unique = true, nullable = false, length = 50)
     private String contractNumber;
 
-    @NotNull(message = "Collaborator ID is required")
-    @Column(name = "collaborator_id", nullable = false)
-    private UUID collaboratorId;
+    @NotBlank(message = "Collaborator ID is required")
+    @Column(name = "collaborator_id", nullable = false, length = 20)
+    private String collaboratorId;
 
     @NotNull(message = "Contract type is required")
     @Enumerated(EnumType.STRING)

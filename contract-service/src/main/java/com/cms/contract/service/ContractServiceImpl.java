@@ -79,7 +79,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public ContractResponse getContractByCollaborator(UUID collaboratorId) {
+    public ContractResponse getContractByCollaborator(String collaboratorId) {
         log.debug("Fetching contract for collaborator: {}", collaboratorId);
         Contract contract = contractRepository.findFirstByCollaboratorIdOrderByCreatedAtDesc(collaboratorId)
                 .orElseThrow(() -> new ContractNotFoundException("collaboratorId", collaboratorId));
@@ -97,7 +97,7 @@ public class ContractServiceImpl implements ContractService {
     public Page<ContractResponse> getContractsWithFilters(
             ContractStatus status,
             ContractType contractType,
-            UUID collaboratorId,
+            String collaboratorId,
             Pageable pageable) {
         log.debug("Fetching contracts with filters - status: {}, type: {}, collaborator: {}",
                 status, contractType, collaboratorId);
@@ -229,7 +229,7 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
-    public boolean existsActiveContractForCollaborator(UUID collaboratorId) {
+    public boolean existsActiveContractForCollaborator(String collaboratorId) {
         return contractRepository.existsByCollaboratorIdAndStatusIn(collaboratorId, ACTIVE_STATUSES);
     }
 
@@ -238,11 +238,11 @@ public class ContractServiceImpl implements ContractService {
                 .orElseThrow(() -> new ContractNotFoundException(id));
     }
 
-    private void validateCollaboratorExists(UUID collaboratorId) {
+    private void validateCollaboratorExists(String collaboratorId) {
         try {
             ApiResponse<Boolean> response = collaboratorClient.checkCollaboratorExists(collaboratorId);
             if (!response.isSuccess() || !Boolean.TRUE.equals(response.getData())) {
-                throw new ResourceNotFoundException("Collaborator", "id", collaboratorId);
+                throw new ResourceNotFoundException("Collaborator", "nationalId", collaboratorId);
             }
         } catch (Exception e) {
             log.warn("Could not verify collaborator existence, proceeding anyway: {}", e.getMessage());
@@ -250,7 +250,7 @@ public class ContractServiceImpl implements ContractService {
         }
     }
 
-    private boolean isEligibleForRenewal(UUID collaboratorId) {
+    private boolean isEligibleForRenewal(String collaboratorId) {
         try {
             ApiResponse<Boolean> response = collaboratorClient.isEligibleForRenewal(collaboratorId);
             return response.isSuccess() && Boolean.TRUE.equals(response.getData());
@@ -266,7 +266,7 @@ public class ContractServiceImpl implements ContractService {
         try {
             // Get collaborator info
             ApiResponse<CollaboratorResponse> collaboratorResponse =
-                    collaboratorClient.getCollaboratorById(contract.getCollaboratorId());
+                    collaboratorClient.getCollaboratorByNationalId(contract.getCollaboratorId());
             if (collaboratorResponse.isSuccess() && collaboratorResponse.getData() != null) {
                 CollaboratorResponse collaborator = collaboratorResponse.getData();
                 response.setCollaboratorName(collaborator.getFullName());

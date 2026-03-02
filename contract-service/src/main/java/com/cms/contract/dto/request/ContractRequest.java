@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -17,8 +16,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ContractRequest {
 
-    @NotNull(message = "Collaborator ID is required")
-    private UUID collaboratorId;
+    @NotBlank(message = "Collaborator ID is required")
+    private String collaboratorId;
 
     @NotNull(message = "Contract type is required")
     private ContractType contractType;

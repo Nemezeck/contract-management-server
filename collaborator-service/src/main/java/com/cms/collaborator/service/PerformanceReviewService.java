@@ -15,13 +15,13 @@ public interface PerformanceReviewService {
 
     PerformanceReviewResponse getReviewById(UUID id);
 
-    Page<PerformanceReviewResponse> getReviewsByCollaborator(UUID collaboratorId, Pageable pageable);
+    Page<PerformanceReviewResponse> getReviewsByCollaborator(String collaboratorId, Pageable pageable);
 
-    List<PerformanceReviewResponse> getAllReviewsByCollaborator(UUID collaboratorId);
+    List<PerformanceReviewResponse> getAllReviewsByCollaborator(String collaboratorId);
 
-    PerformanceReviewResponse getLatestReview(UUID collaboratorId);
+    PerformanceReviewResponse getLatestReview(String collaboratorId);
 
-    AverageRatingResponse calculateAverageRating(UUID collaboratorId);
+    AverageRatingResponse calculateAverageRating(String collaboratorId);
 
-    boolean isEligibleForRenewal(UUID collaboratorId);
+    boolean isEligibleForRenewal(String collaboratorId);
 }

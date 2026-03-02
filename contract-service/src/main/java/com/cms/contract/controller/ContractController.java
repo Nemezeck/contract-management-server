@@ -64,13 +64,13 @@ public class ContractController {
     }
 
     @GetMapping("/collaborator/{collaboratorId}")
-    @Operation(summary = "Get contract by collaborator ID")
+    @Operation(summary = "Get contract by collaborator National ID")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Contract found"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "No contract found for collaborator")
     })
     public ResponseEntity<ApiResponse<ContractResponse>> getContractByCollaborator(
-            @Parameter(description = "Collaborator ID") @PathVariable UUID collaboratorId) {
+            @Parameter(description = "Collaborator National ID") @PathVariable String collaboratorId) {
         ContractResponse response = contractService.getContractByCollaborator(collaboratorId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
@@ -80,7 +80,7 @@ public class ContractController {
     public ResponseEntity<ApiResponse<PageResponse<ContractResponse>>> getAllContracts(
             @Parameter(description = "Filter by status") @RequestParam(required = false) ContractStatus status,
             @Parameter(description = "Filter by contract type") @RequestParam(required = false) ContractType contractType,
-            @Parameter(description = "Filter by collaborator ID") @RequestParam(required = false) UUID collaboratorId,
+            @Parameter(description = "Filter by collaborator National ID") @RequestParam(required = false) String collaboratorId,
             @PageableDefault(size = 20, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<ContractResponse> page = contractService.getContractsWithFilters(

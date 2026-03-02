@@ -22,8 +22,8 @@ public class NotificationRequest {
     @NotNull(message = "Contract ID is required")
     private UUID contractId;
 
-    @NotNull(message = "Collaborator ID is required")
-    private UUID collaboratorId;
+    @NotBlank(message = "Collaborator ID is required")
+    private String collaboratorId;
 
     @NotNull(message = "Notification type is required")
     private NotificationType notificationType;

@@ -84,7 +84,7 @@ public class ExpiryNotificationScheduler {
     private void sendExpiryNotification(Contract contract) {
         // Get collaborator info
         ApiResponse<CollaboratorResponse> collaboratorResponse =
-                collaboratorClient.getCollaboratorById(contract.getCollaboratorId());
+                collaboratorClient.getCollaboratorByNationalId(contract.getCollaboratorId());
 
         if (!collaboratorResponse.isSuccess() || collaboratorResponse.getData() == null) {
             log.warn("Could not get collaborator info for contract {}", contract.getContractNumber());

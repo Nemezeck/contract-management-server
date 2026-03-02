@@ -21,17 +21,17 @@ public interface ContractRepository extends JpaRepository<Contract, UUID>, JpaSp
 
     Optional<Contract> findByContractNumber(String contractNumber);
 
-    Optional<Contract> findByCollaboratorIdAndStatus(UUID collaboratorId, ContractStatus status);
+    Optional<Contract> findByCollaboratorIdAndStatus(String collaboratorId, ContractStatus status);
 
-    List<Contract> findByCollaboratorId(UUID collaboratorId);
+    List<Contract> findByCollaboratorId(String collaboratorId);
 
-    Optional<Contract> findFirstByCollaboratorIdOrderByCreatedAtDesc(UUID collaboratorId);
+    Optional<Contract> findFirstByCollaboratorIdOrderByCreatedAtDesc(String collaboratorId);
 
     List<Contract> findByStatus(ContractStatus status);
 
     Page<Contract> findByStatus(ContractStatus status, Pageable pageable);
 
-    boolean existsByCollaboratorIdAndStatusIn(UUID collaboratorId, List<ContractStatus> statuses);
+    boolean existsByCollaboratorIdAndStatusIn(String collaboratorId, List<ContractStatus> statuses);
 
     boolean existsByContractNumber(String contractNumber);
 
@@ -57,7 +57,7 @@ public interface ContractRepository extends JpaRepository<Contract, UUID>, JpaSp
     Page<Contract> findWithFilters(
             @Param("status") ContractStatus status,
             @Param("contractType") ContractType contractType,
-            @Param("collaboratorId") UUID collaboratorId,
+            @Param("collaboratorId") String collaboratorId,
             Pageable pageable
     );
 

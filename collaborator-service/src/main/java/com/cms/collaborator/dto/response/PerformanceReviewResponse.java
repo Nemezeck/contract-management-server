@@ -20,7 +20,7 @@ import java.util.UUID;
 public class PerformanceReviewResponse {
 
     private UUID id;
-    private UUID collaboratorId;
+    private String collaboratorId;
     private String collaboratorName;
     private String reviewerName;
     private String reviewerEmail;

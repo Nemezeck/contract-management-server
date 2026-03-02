@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS contracts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     contract_number VARCHAR(50) NOT NULL UNIQUE,
-    collaborator_id UUID NOT NULL,
+    collaborator_id VARCHAR(20) NOT NULL,
     contract_type VARCHAR(20) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,

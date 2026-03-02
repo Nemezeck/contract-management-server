@@ -17,7 +17,7 @@ public interface PerformanceReviewMapper {
     @Mapping(target = "updatedAt", ignore = true)
     PerformanceReview toEntity(PerformanceReviewRequest request);
 
-    @Mapping(target = "collaboratorId", source = "collaborator.id")
+    @Mapping(target = "collaboratorId", source = "collaborator.nationalId")
     @Mapping(target = "collaboratorName", expression = "java(review.getCollaborator() != null ? review.getCollaborator().getFullName() : null)")
     PerformanceReviewResponse toResponse(PerformanceReview review);
 

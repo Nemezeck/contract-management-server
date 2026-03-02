@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "collaborators", indexes = {
@@ -35,8 +34,10 @@ import java.util.UUID;
 public class Collaborator {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @NotBlank(message = "National ID is required")
+    @Size(max = 20, message = "National ID must not exceed 20 characters")
+    @Column(name = "national_id", nullable = false, length = 20)
+    private String nationalId;
 
     @NotBlank(message = "Employee code is required")
     @Size(max = 50, message = "Employee code must not exceed 50 characters")

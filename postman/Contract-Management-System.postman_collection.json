@@ -27,7 +27,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"employeeCode\": \"EMP006\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"email\": \"test.user@company.com\",\n  \"phone\": \"+1234567899\",\n  \"department\": \"Engineering\",\n  \"position\": \"Software Developer\",\n  \"status\": \"ACTIVE\",\n  \"hireDate\": \"2024-01-15\"\n}"
+              "raw": "{\n  \"nationalId\": \"9876543210\",\n  \"employeeCode\": \"EMP006\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\",\n  \"email\": \"test.user@company.com\",\n  \"phone\": \"+1234567899\",\n  \"department\": \"Engineering\",\n  \"position\": \"Software Developer\",\n  \"status\": \"ACTIVE\",\n  \"hireDate\": \"2024-01-15\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/collaborators",
@@ -55,13 +55,13 @@
           }
         },
         {
-          "name": "Get Collaborator by ID",
+          "name": "Get Collaborator by National ID",
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/collaborators/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "raw": "{{baseUrl}}/api/v1/collaborators/1234567890",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "collaborators", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+              "path": ["api", "v1", "collaborators", "1234567890"]
             }
           }
         },
@@ -70,9 +70,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/collaborators/a1b2c3d4-e5f6-7890-abcd-ef1234567890/details",
+              "raw": "{{baseUrl}}/api/v1/collaborators/1234567890/details",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "collaborators", "a1b2c3d4-e5f6-7890-abcd-ef1234567890", "details"]
+              "path": ["api", "v1", "collaborators", "1234567890", "details"]
             }
           }
         },
@@ -88,12 +88,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"employeeCode\": \"EMP001\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@company.com\",\n  \"phone\": \"+1234567890\",\n  \"department\": \"Engineering\",\n  \"position\": \"Tech Lead\",\n  \"status\": \"ACTIVE\",\n  \"hireDate\": \"2022-01-15\"\n}"
+              "raw": "{\n  \"nationalId\": \"1234567890\",\n  \"employeeCode\": \"EMP001\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"email\": \"john.doe@company.com\",\n  \"phone\": \"+1234567890\",\n  \"department\": \"Engineering\",\n  \"position\": \"Tech Lead\",\n  \"status\": \"ACTIVE\",\n  \"hireDate\": \"2022-01-15\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/v1/collaborators/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "raw": "{{baseUrl}}/api/v1/collaborators/1234567890",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "collaborators", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+              "path": ["api", "v1", "collaborators", "1234567890"]
             }
           }
         },
@@ -102,9 +102,9 @@
           "request": {
             "method": "DELETE",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/collaborators/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "raw": "{{baseUrl}}/api/v1/collaborators/1234567890",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "collaborators", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+              "path": ["api", "v1", "collaborators", "1234567890"]
             }
           }
         },
@@ -113,9 +113,20 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/collaborators/a1b2c3d4-e5f6-7890-abcd-ef1234567890/performance-reviews",
+              "raw": "{{baseUrl}}/api/v1/collaborators/1234567890/performance-reviews",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "collaborators", "a1b2c3d4-e5f6-7890-abcd-ef1234567890", "performance-reviews"]
+              "path": ["api", "v1", "collaborators", "1234567890", "performance-reviews"]
+            }
+          }
+        },
+        {
+          "name": "Check Collaborator Exists",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/collaborators/1234567890/exists",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "collaborators", "1234567890", "exists"]
             }
           }
         }
@@ -136,7 +147,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"collaboratorId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n  \"reviewerName\": \"Sarah Manager\",\n  \"reviewerEmail\": \"sarah.manager@company.com\",\n  \"reviewPeriodStart\": \"2024-07-01\",\n  \"reviewPeriodEnd\": \"2024-12-31\",\n  \"rating\": 4.25,\n  \"performanceCategory\": \"EXCEEDS_EXPECTATIONS\",\n  \"strengths\": \"Excellent technical skills and leadership\",\n  \"areasForImprovement\": \"Could delegate more tasks\",\n  \"comments\": \"Great performance this quarter\"\n}"
+              "raw": "{\n  \"collaboratorId\": \"1234567890\",\n  \"reviewerName\": \"Sarah Manager\",\n  \"reviewerEmail\": \"sarah.manager@company.com\",\n  \"reviewPeriodStart\": \"2024-07-01\",\n  \"reviewPeriodEnd\": \"2024-12-31\",\n  \"rating\": 4.25,\n  \"performanceCategory\": \"EXCEEDS_EXPECTATIONS\",\n  \"strengths\": \"Excellent technical skills and leadership\",\n  \"areasForImprovement\": \"Could delegate more tasks\",\n  \"comments\": \"Great performance this quarter\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/performance-reviews",
@@ -161,9 +172,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/a1b2c3d4-e5f6-7890-abcd-ef1234567890?page=0&size=20",
+              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/1234567890?page=0&size=20",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "performance-reviews", "collaborator", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"],
+              "path": ["api", "v1", "performance-reviews", "collaborator", "1234567890"],
               "query": [
                 {"key": "page", "value": "0"},
                 {"key": "size", "value": "20"}
@@ -176,9 +187,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/a1b2c3d4-e5f6-7890-abcd-ef1234567890/latest",
+              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/1234567890/latest",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "performance-reviews", "collaborator", "a1b2c3d4-e5f6-7890-abcd-ef1234567890", "latest"]
+              "path": ["api", "v1", "performance-reviews", "collaborator", "1234567890", "latest"]
             }
           }
         },
@@ -187,9 +198,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/a1b2c3d4-e5f6-7890-abcd-ef1234567890/average-rating",
+              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/1234567890/average-rating",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "performance-reviews", "collaborator", "a1b2c3d4-e5f6-7890-abcd-ef1234567890", "average-rating"]
+              "path": ["api", "v1", "performance-reviews", "collaborator", "1234567890", "average-rating"]
             }
           }
         },
@@ -198,9 +209,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/a1b2c3d4-e5f6-7890-abcd-ef1234567890/renewal-eligibility",
+              "raw": "{{baseUrl}}/api/v1/performance-reviews/collaborator/1234567890/renewal-eligibility",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "performance-reviews", "collaborator", "a1b2c3d4-e5f6-7890-abcd-ef1234567890", "renewal-eligibility"]
+              "path": ["api", "v1", "performance-reviews", "collaborator", "1234567890", "renewal-eligibility"]
             }
           }
         }
@@ -221,7 +232,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"collaboratorId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n  \"contractType\": \"FULL_TIME\",\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2025-01-01\",\n  \"salary\": 85000.00,\n  \"currency\": \"USD\",\n  \"termsAndConditions\": \"Standard employment contract with benefits\",\n  \"autoRenewal\": true,\n  \"noticePeriodDays\": 30\n}"
+              "raw": "{\n  \"collaboratorId\": \"1234567890\",\n  \"contractType\": \"FULL_TIME\",\n  \"startDate\": \"2024-01-01\",\n  \"endDate\": \"2025-01-01\",\n  \"salary\": 85000.00,\n  \"currency\": \"USD\",\n  \"termsAndConditions\": \"Standard employment contract with benefits\",\n  \"autoRenewal\": true,\n  \"noticePeriodDays\": 30\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/contracts",
@@ -242,7 +253,8 @@
                 {"key": "page", "value": "0"},
                 {"key": "size", "value": "20"},
                 {"key": "status", "value": "ACTIVE", "disabled": true},
-                {"key": "contractType", "value": "FULL_TIME", "disabled": true}
+                {"key": "contractType", "value": "FULL_TIME", "disabled": true},
+                {"key": "collaboratorId", "value": "1234567890", "disabled": true}
               ]
             }
           }
@@ -263,9 +275,9 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{baseUrl}}/api/v1/contracts/collaborator/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+              "raw": "{{baseUrl}}/api/v1/contracts/collaborator/1234567890",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "contracts", "collaborator", "a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+              "path": ["api", "v1", "contracts", "collaborator", "1234567890"]
             }
           }
         },
@@ -363,7 +375,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"contractId\": \"aaaa1111-bbbb-cccc-dddd-eeee11111111\",\n  \"collaboratorId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n  \"notificationType\": \"RENEWAL_REMINDER\",\n  \"recipientEmail\": \"john.doe@company.com\",\n  \"recipientName\": \"John Doe\",\n  \"subject\": \"Contract Renewal Reminder\",\n  \"messageBody\": \"Dear John Doe,\\n\\nYour contract is expiring in 30 days. Please contact HR.\\n\\nBest regards,\\nContract Management System\",\n  \"daysUntilExpiry\": 30,\n  \"scheduledAt\": \"2024-12-01T08:00:00\"\n}"
+              "raw": "{\n  \"contractId\": \"aaaa1111-bbbb-cccc-dddd-eeee11111111\",\n  \"collaboratorId\": \"1234567890\",\n  \"notificationType\": \"RENEWAL_REMINDER\",\n  \"recipientEmail\": \"john.doe@company.com\",\n  \"recipientName\": \"John Doe\",\n  \"subject\": \"Contract Renewal Reminder\",\n  \"messageBody\": \"Dear John Doe,\\n\\nYour contract is expiring in 30 days. Please contact HR.\\n\\nBest regards,\\nContract Management System\",\n  \"daysUntilExpiry\": 30,\n  \"scheduledAt\": \"2024-12-01T08:00:00\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/notifications",
@@ -384,7 +396,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"contractId\": \"aaaa1111-bbbb-cccc-dddd-eeee11111111\",\n  \"collaboratorId\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\",\n  \"notificationType\": \"EXPIRY_WARNING\",\n  \"recipientEmail\": \"john.doe@company.com\",\n  \"recipientName\": \"John Doe\",\n  \"subject\": \"URGENT: Contract Expiring Soon\",\n  \"messageBody\": \"Dear John Doe,\\n\\nURGENT: Your contract expires in 7 days!\\n\\nPlease contact HR immediately.\\n\\nBest regards,\\nContract Management System\",\n  \"daysUntilExpiry\": 7\n}"
+              "raw": "{\n  \"contractId\": \"aaaa1111-bbbb-cccc-dddd-eeee11111111\",\n  \"collaboratorId\": \"1234567890\",\n  \"notificationType\": \"EXPIRY_WARNING\",\n  \"recipientEmail\": \"john.doe@company.com\",\n  \"recipientName\": \"John Doe\",\n  \"subject\": \"URGENT: Contract Expiring Soon\",\n  \"messageBody\": \"Dear John Doe,\\n\\nURGENT: Your contract expires in 7 days!\\n\\nPlease contact HR immediately.\\n\\nBest regards,\\nContract Management System\",\n  \"daysUntilExpiry\": 7\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/notifications/send",

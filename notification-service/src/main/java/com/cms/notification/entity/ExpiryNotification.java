@@ -39,9 +39,9 @@ public class ExpiryNotification {
     @Column(name = "contract_id", nullable = false)
     private UUID contractId;
 
-    @NotNull(message = "Collaborator ID is required")
-    @Column(name = "collaborator_id", nullable = false)
-    private UUID collaboratorId;
+    @NotBlank(message = "Collaborator ID is required")
+    @Column(name = "collaborator_id", nullable = false, length = 20)
+    private String collaboratorId;
 
     @NotNull(message = "Notification type is required")
     @Enumerated(EnumType.STRING)

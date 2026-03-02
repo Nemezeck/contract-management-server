@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -17,8 +16,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PerformanceReviewRequest {
 
-    @NotNull(message = "Collaborator ID is required")
-    private UUID collaboratorId;
+    @NotBlank(message = "Collaborator National ID is required")
+    private String collaboratorId;
 
     @NotBlank(message = "Reviewer name is required")
     @Size(max = 200, message = "Reviewer name must not exceed 200 characters")

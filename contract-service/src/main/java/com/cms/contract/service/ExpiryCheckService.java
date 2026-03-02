@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -44,7 +43,7 @@ public class ExpiryCheckService {
         }
     }
 
-    public boolean isEligibleForRenewal(UUID collaboratorId) {
+    public boolean isEligibleForRenewal(String collaboratorId) {
         try {
             ApiResponse<AverageRatingResponse> response = collaboratorClient.getAverageRating(collaboratorId);
             if (response.isSuccess() && response.getData() != null) {

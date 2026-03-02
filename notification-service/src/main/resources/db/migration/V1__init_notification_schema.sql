@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS expiry_notifications (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     contract_id UUID NOT NULL,
-    collaborator_id UUID NOT NULL,
+    collaborator_id VARCHAR(20) NOT NULL,
     notification_type VARCHAR(30) NOT NULL,
     recipient_email VARCHAR(255) NOT NULL,
     recipient_name VARCHAR(200) NOT NULL,

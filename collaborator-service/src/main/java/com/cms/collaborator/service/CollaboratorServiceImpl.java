@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -39,9 +38,14 @@ public class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     @Transactional
     public CollaboratorResponse createCollaborator(CollaboratorRequest request) {
-        log.info("Creating new collaborator with email: {}", request.getEmail());
+        log.info("Creating new collaborator with national ID: {}", request.getNationalId());
 
         validateUniqueConstraints(request, null);
+
+        // Check if national ID already exists
+        if (collaboratorRepository.existsById(request.getNationalId())) {
+            throw new DuplicateResourceException("Collaborator", "nationalId", request.getNationalId());
+        }
 
         Collaborator collaborator = collaboratorMapper.toEntity(request);
         if (collaborator.getStatus() == null) {
@@ -49,27 +53,27 @@ public class CollaboratorServiceImpl implements CollaboratorService {
         }
 
         Collaborator savedCollaborator = collaboratorRepository.save(collaborator);
-        log.info("Created collaborator with ID: {}", savedCollaborator.getId());
+        log.info("Created collaborator with national ID: {}", savedCollaborator.getNationalId());
 
         return collaboratorMapper.toResponse(savedCollaborator);
     }
 
     @Override
-    public CollaboratorResponse getCollaboratorById(UUID id) {
-        log.debug("Fetching collaborator with ID: {}", id);
-        Collaborator collaborator = findCollaboratorById(id);
+    public CollaboratorResponse getCollaboratorByNationalId(String nationalId) {
+        log.debug("Fetching collaborator with national ID: {}", nationalId);
+        Collaborator collaborator = findCollaboratorByNationalId(nationalId);
         return collaboratorMapper.toResponse(collaborator);
     }
 
     @Override
-    public CollaboratorDetailResponse getCollaboratorDetailById(UUID id) {
-        log.debug("Fetching collaborator details with ID: {}", id);
-        Collaborator collaborator = findCollaboratorById(id);
+    public CollaboratorDetailResponse getCollaboratorDetailByNationalId(String nationalId) {
+        log.debug("Fetching collaborator details with national ID: {}", nationalId);
+        Collaborator collaborator = findCollaboratorByNationalId(nationalId);
 
         CollaboratorDetailResponse response = collaboratorMapper.toDetailResponse(collaborator);
 
         // Enrich with performance data
-        enrichWithPerformanceData(response, id);
+        enrichWithPerformanceData(response, nationalId);
 
         return response;
     }
@@ -95,44 +99,44 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
     @Override
     @Transactional
-    public CollaboratorResponse updateCollaborator(UUID id, CollaboratorRequest request) {
-        log.info("Updating collaborator with ID: {}", id);
+    public CollaboratorResponse updateCollaborator(String nationalId, CollaboratorRequest request) {
+        log.info("Updating collaborator with national ID: {}", nationalId);
 
-        Collaborator collaborator = findCollaboratorById(id);
-        validateUniqueConstraints(request, id);
+        Collaborator collaborator = findCollaboratorByNationalId(nationalId);
+        validateUniqueConstraints(request, nationalId);
 
         collaboratorMapper.updateEntity(collaborator, request);
         Collaborator updatedCollaborator = collaboratorRepository.save(collaborator);
 
-        log.info("Updated collaborator with ID: {}", id);
+        log.info("Updated collaborator with national ID: {}", nationalId);
         return collaboratorMapper.toResponse(updatedCollaborator);
     }
 
     @Override
     @Transactional
-    public void deleteCollaborator(UUID id) {
-        log.info("Deleting collaborator with ID: {}", id);
+    public void deleteCollaborator(String nationalId) {
+        log.info("Deleting collaborator with national ID: {}", nationalId);
 
-        if (!collaboratorRepository.existsById(id)) {
-            throw new CollaboratorNotFoundException(id);
+        if (!collaboratorRepository.existsById(nationalId)) {
+            throw new CollaboratorNotFoundException(nationalId);
         }
 
-        collaboratorRepository.deleteById(id);
-        log.info("Deleted collaborator with ID: {}", id);
+        collaboratorRepository.deleteById(nationalId);
+        log.info("Deleted collaborator with national ID: {}", nationalId);
     }
 
     @Override
-    public boolean existsById(UUID id) {
-        return collaboratorRepository.existsById(id);
+    public boolean existsByNationalId(String nationalId) {
+        return collaboratorRepository.existsById(nationalId);
     }
 
-    private Collaborator findCollaboratorById(UUID id) {
-        return collaboratorRepository.findById(id)
-                .orElseThrow(() -> new CollaboratorNotFoundException(id));
+    private Collaborator findCollaboratorByNationalId(String nationalId) {
+        return collaboratorRepository.findById(nationalId)
+                .orElseThrow(() -> new CollaboratorNotFoundException(nationalId));
     }
 
-    private void validateUniqueConstraints(CollaboratorRequest request, UUID excludeId) {
-        if (excludeId == null) {
+    private void validateUniqueConstraints(CollaboratorRequest request, String excludeNationalId) {
+        if (excludeNationalId == null) {
             if (collaboratorRepository.existsByEmail(request.getEmail())) {
                 throw new DuplicateResourceException("Collaborator", "email", request.getEmail());
             }
@@ -140,16 +144,16 @@ public class CollaboratorServiceImpl implements CollaboratorService {
                 throw new DuplicateResourceException("Collaborator", "employeeCode", request.getEmployeeCode());
             }
         } else {
-            if (collaboratorRepository.existsByEmailAndIdNot(request.getEmail(), excludeId)) {
+            if (collaboratorRepository.existsByEmailAndNationalIdNot(request.getEmail(), excludeNationalId)) {
                 throw new DuplicateResourceException("Collaborator", "email", request.getEmail());
             }
-            if (collaboratorRepository.existsByEmployeeCodeAndIdNot(request.getEmployeeCode(), excludeId)) {
+            if (collaboratorRepository.existsByEmployeeCodeAndNationalIdNot(request.getEmployeeCode(), excludeNationalId)) {
                 throw new DuplicateResourceException("Collaborator", "employeeCode", request.getEmployeeCode());
             }
         }
     }
 
-    private void enrichWithPerformanceData(CollaboratorDetailResponse response, UUID collaboratorId) {
+    private void enrichWithPerformanceData(CollaboratorDetailResponse response, String collaboratorId) {
         // Get average rating
         Optional<BigDecimal> avgRating = performanceReviewRepository
                 .calculateAverageRatingByCollaboratorId(collaboratorId);
@@ -166,7 +170,7 @@ public class CollaboratorServiceImpl implements CollaboratorService {
 
         // Get latest review
         Optional<PerformanceReview> latestReview = performanceReviewRepository
-                .findTopByCollaboratorIdOrderByReviewPeriodEndDesc(collaboratorId);
+                .findTopByCollaboratorNationalIdOrderByReviewPeriodEndDesc(collaboratorId);
         latestReview.ifPresent(review ->
                 response.setLatestReview(performanceReviewMapper.toResponse(review)));
     }

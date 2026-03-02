@@ -15,7 +15,7 @@ import java.util.UUID;
 public class NotificationRequest {
 
     private UUID contractId;
-    private UUID collaboratorId;
+    private String collaboratorId;
     private String notificationType;
     private String recipientEmail;
     private String recipientName;

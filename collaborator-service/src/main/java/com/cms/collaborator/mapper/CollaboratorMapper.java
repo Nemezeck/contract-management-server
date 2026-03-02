@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CollaboratorMapper {
 
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
@@ -32,7 +31,7 @@ public interface CollaboratorMapper {
 
     List<CollaboratorResponse> toResponseList(List<Collaborator> collaborators);
 
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "nationalId", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)

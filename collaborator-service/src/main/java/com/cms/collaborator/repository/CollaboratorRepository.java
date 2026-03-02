@@ -13,10 +13,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface CollaboratorRepository extends JpaRepository<Collaborator, UUID>, JpaSpecificationExecutor<Collaborator> {
+public interface CollaboratorRepository extends JpaRepository<Collaborator, String>, JpaSpecificationExecutor<Collaborator> {
 
     Optional<Collaborator> findByEmail(String email);
 
@@ -30,9 +29,9 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, UUID
 
     boolean existsByEmployeeCode(String employeeCode);
 
-    boolean existsByEmailAndIdNot(String email, UUID id);
+    boolean existsByEmailAndNationalIdNot(String email, String nationalId);
 
-    boolean existsByEmployeeCodeAndIdNot(String employeeCode, UUID id);
+    boolean existsByEmployeeCodeAndNationalIdNot(String employeeCode, String nationalId);
 
     List<Collaborator> findByDepartment(String department);
 

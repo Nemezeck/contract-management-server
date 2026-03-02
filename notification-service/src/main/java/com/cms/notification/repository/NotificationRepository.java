@@ -19,7 +19,7 @@ public interface NotificationRepository extends JpaRepository<ExpiryNotification
 
     List<ExpiryNotification> findByContractId(UUID contractId);
 
-    List<ExpiryNotification> findByCollaboratorId(UUID collaboratorId);
+    List<ExpiryNotification> findByCollaboratorId(String collaboratorId);
 
     List<ExpiryNotification> findByStatus(NotificationStatus status);
 
@@ -56,5 +56,5 @@ public interface NotificationRepository extends JpaRepository<ExpiryNotification
     @Query("SELECT n FROM ExpiryNotification n WHERE n.contractId = :contractId ORDER BY n.createdAt DESC")
     List<ExpiryNotification> findByContractIdOrderByCreatedAtDesc(@Param("contractId") UUID contractId);
 
-    List<ExpiryNotification> findByCollaboratorIdAndStatus(UUID collaboratorId, NotificationStatus status);
+    List<ExpiryNotification> findByCollaboratorIdAndStatus(String collaboratorId, NotificationStatus status);
 }

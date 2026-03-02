@@ -22,7 +22,7 @@ public class ContractResponse {
 
     private UUID id;
     private String contractNumber;
-    private UUID collaboratorId;
+    private String collaboratorId;
     private ContractType contractType;
     private LocalDate startDate;
     private LocalDate endDate;

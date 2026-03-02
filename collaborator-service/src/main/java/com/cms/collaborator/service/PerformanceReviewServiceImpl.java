@@ -46,7 +46,7 @@ public class PerformanceReviewServiceImpl implements PerformanceReviewService {
                 .orElseThrow(() -> new CollaboratorNotFoundException(request.getCollaboratorId()));
 
         // Check for duplicate review period
-        if (performanceReviewRepository.existsByCollaboratorIdAndReviewPeriodStartAndReviewPeriodEnd(
+        if (performanceReviewRepository.existsByCollaboratorNationalIdAndReviewPeriodStartAndReviewPeriodEnd(
                 request.getCollaboratorId(),
                 request.getReviewPeriodStart(),
                 request.getReviewPeriodEnd())) {
@@ -71,35 +71,35 @@ public class PerformanceReviewServiceImpl implements PerformanceReviewService {
     }
 
     @Override
-    public Page<PerformanceReviewResponse> getReviewsByCollaborator(UUID collaboratorId, Pageable pageable) {
+    public Page<PerformanceReviewResponse> getReviewsByCollaborator(String collaboratorId, Pageable pageable) {
         log.debug("Fetching performance reviews for collaborator: {}", collaboratorId);
         validateCollaboratorExists(collaboratorId);
-        return performanceReviewRepository.findByCollaboratorId(collaboratorId, pageable)
+        return performanceReviewRepository.findByCollaboratorNationalId(collaboratorId, pageable)
                 .map(performanceReviewMapper::toResponse);
     }
 
     @Override
-    public List<PerformanceReviewResponse> getAllReviewsByCollaborator(UUID collaboratorId) {
+    public List<PerformanceReviewResponse> getAllReviewsByCollaborator(String collaboratorId) {
         log.debug("Fetching all performance reviews for collaborator: {}", collaboratorId);
         validateCollaboratorExists(collaboratorId);
         List<PerformanceReview> reviews = performanceReviewRepository
-                .findByCollaboratorIdOrderByCreatedAtDesc(collaboratorId);
+                .findByCollaboratorNationalIdOrderByCreatedAtDesc(collaboratorId);
         return performanceReviewMapper.toResponseList(reviews);
     }
 
     @Override
-    public PerformanceReviewResponse getLatestReview(UUID collaboratorId) {
+    public PerformanceReviewResponse getLatestReview(String collaboratorId) {
         log.debug("Fetching latest performance review for collaborator: {}", collaboratorId);
         validateCollaboratorExists(collaboratorId);
 
-        return performanceReviewRepository.findTopByCollaboratorIdOrderByReviewPeriodEndDesc(collaboratorId)
+        return performanceReviewRepository.findTopByCollaboratorNationalIdOrderByReviewPeriodEndDesc(collaboratorId)
                 .map(performanceReviewMapper::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "No performance reviews found for collaborator with id: " + collaboratorId));
     }
 
     @Override
-    public AverageRatingResponse calculateAverageRating(UUID collaboratorId) {
+    public AverageRatingResponse calculateAverageRating(String collaboratorId) {
         log.debug("Calculating average rating for collaborator: {}", collaboratorId);
 
         Collaborator collaborator = collaboratorRepository.findById(collaboratorId)
@@ -126,7 +126,7 @@ public class PerformanceReviewServiceImpl implements PerformanceReviewService {
     }
 
     @Override
-    public boolean isEligibleForRenewal(UUID collaboratorId) {
+    public boolean isEligibleForRenewal(String collaboratorId) {
         log.debug("Checking renewal eligibility for collaborator: {}", collaboratorId);
         validateCollaboratorExists(collaboratorId);
 
@@ -141,7 +141,7 @@ public class PerformanceReviewServiceImpl implements PerformanceReviewService {
                 .orElseThrow(() -> new ResourceNotFoundException("PerformanceReview", "id", id));
     }
 
-    private void validateCollaboratorExists(UUID collaboratorId) {
+    private void validateCollaboratorExists(String collaboratorId) {
         if (!collaboratorRepository.existsById(collaboratorId)) {
             throw new CollaboratorNotFoundException(collaboratorId);
         }

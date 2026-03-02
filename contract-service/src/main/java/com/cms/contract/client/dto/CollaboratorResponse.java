@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -14,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CollaboratorResponse {
 
-    private UUID id;
+    private String nationalId;
     private String employeeCode;
     private String firstName;
     private String lastName;

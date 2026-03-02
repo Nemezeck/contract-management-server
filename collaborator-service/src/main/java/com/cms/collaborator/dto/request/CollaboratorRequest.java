@@ -15,6 +15,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CollaboratorRequest {
 
+    @NotBlank(message = "National ID is required")
+    @Size(max = 20, message = "National ID must not exceed 20 characters")
+    private String nationalId;
+
     @NotBlank(message = "Employee code is required")
     @Size(max = 50, message = "Employee code must not exceed 50 characters")
     private String employeeCode;

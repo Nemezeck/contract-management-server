@@ -21,7 +21,7 @@ public class ExpiringContractResponse {
 
     private UUID id;
     private String contractNumber;
-    private UUID collaboratorId;
+    private String collaboratorId;
     private String collaboratorName;
     private String collaboratorEmail;
     private ContractType contractType;
