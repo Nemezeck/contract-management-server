@@ -201,7 +201,3 @@ contract-management-system/
 - **OpenAPI Documentation**: Swagger UI for API exploration
 - **Email Notifications**: Automated contract expiry notifications
 - **Performance-based Renewals**: Contract renewal eligibility based on reviews
-
-## License
-
-MIT License
