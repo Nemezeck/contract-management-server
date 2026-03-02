@@ -57,9 +57,10 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, UUID
     @Query("SELECT c FROM Collaborator c WHERE " +
             "(:status IS NULL OR c.status = :status) AND " +
             "(:department IS NULL OR c.department = :department) AND " +
-            "(:searchTerm IS NULL OR LOWER(c.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "OR LOWER(c.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
-            "OR LOWER(c.email) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
+            "(:searchTerm IS NULL OR :searchTerm = '' OR " +
+            "LOWER(CAST(c.firstName AS string)) LIKE LOWER(CONCAT('%', CAST(:searchTerm AS string), '%')) " +
+            "OR LOWER(CAST(c.lastName AS string)) LIKE LOWER(CONCAT('%', CAST(:searchTerm AS string), '%')) " +
+            "OR LOWER(CAST(c.email AS string)) LIKE LOWER(CONCAT('%', CAST(:searchTerm AS string), '%')))")
     Page<Collaborator> findWithFilters(
             @Param("status") CollaboratorStatus status,
             @Param("department") String department,
